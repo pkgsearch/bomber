@@ -1,18 +1,7 @@
 # bomber
-Установка
-На Windows
-Установите Python версии не ниже 3.6, скачав установщик с официального сайта.
-Установите git для Windows, скачав его отсюда.
-Клонируйте репозиторий при помощи git и перейдите в папку:
-git clone https://github.com/pkgsearch/bomber
-cd bomber
-Установите все необходимые библиотеки и запустите скрипт:
-pip install -r requirements.txt
-python main.py
-Если в вашем браузере не открылся веб-интерфейс, перейдите по ссылке в консоли.
-На Android
-Установите Termux
-Введите следующие команды поочерёдно для установки необходимых компонентов:
-pkg install python
-pkg install git
-Выполните действия, начиная с пункта 3 из инструкции по установке на Windows.
+#pkg install python
+#pkg install git
+#git clone https://github.com/pkgsearch/bomber
+#cd bomber
+#pip install -r requirements.txt
+#python main.py
