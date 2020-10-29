@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/index.css" rel="stylesheet">
+    <link href="/static/intlTelInput.min.css" rel="stylesheet">
+    <title>ахуенный бомбер</title>
+</head>
+<body>
+<div id="block-ui">
+    <div id="loader"></div>
+</div>
+
+<div id="main">
+    <h1 class="no-select">бомбер</h1>
+    <p class="lead" id="sms">SMS-сервисы:дохуя <span
+            class="badge badge-pill badge-primary no-select">{{sms}}</span></p>
+    <form action="/sms" id="phone-form" method="post">
+        <div class="form-row">
+            <div class="col">
+                <label for="phone"></label>
+                <input aria-describedby="phonesHelp" class="form-control" id="phone" name="phone"
+                       pattern="\d*" placeholder="Номер" required type="number">
+            </div>
+
+            <div class="col">
+                <label for="count"></label>
+                <input class="form-control" id="count" max="1000" min="1" name="count" placeholder="Повторы"
+                       required type="number" value="1">
+            </div>
+
+            <div class="col">
+                <label for="smsText"></label>
+                <input class="form-control" id="smsText" max="1000" min="1" name="smsText" placeholder="Текст SMS"
+                        type="text">
+            </div>
+        </div>
+
+        <div class="form-group form-check">
+            <input class="form-check-input" id="call" name="call" type="checkbox" value="true">
+            <input name="call" type="hidden" value="false"/>
+            <label class="form-check-label" for="call">Звонки</label>
+        </div>
+
+        <small class="form-text text-muted" id="phonesHelp"></small>
+        <button class="btn btn-primary btn-lg" type="submit">Взорвать жопу</button>
+        
+        
+    </form>
+</div>
+
+<div class="mt-auto py-3 footer" id="footer">
+    <span class="text-muted">Made with ❤️ by pkgsearch.</span>
+</div>
+
+<script src="/static/jquery-3.4.1.min.js"></script>
+<script src="/static/intlTelInput.min.js"></script>
+
+<script type="text/javascript">
+    let tips = [' работает с российскими номерами ахуенно'];
+    let input = document.querySelector('#phone');
+    let tip = document.querySelector('#phonesHelp');
+    let intltelinput = undefined;
+
+    $(document).ready(function () {
+        tip.innerHTML = 'Совет: ' + tips[Math.random() * tips.length >> 0];
+        intltelinput = intlTelInput(input, {
+            onlyCountries: ['ru', 'ua', 'kz', 'by'],
+            initialCountry: 'ru',
+        });
+    });
+
+    $('#phone-form').submit(function (e) {
+        e.preventDefault();
+        $('#main').css({'animation': 'blur', 'animation-duration': '0.6s', 'animation-fill-mode': 'both'});
+        $('#footer').css({'animation': 'blur', 'animation-duration': '0.6s', 'animation-fill-mode': 'both'});
+        setTimeout(function () {
+            $('#block-ui').css('display', 'block');
+        }, 600);
+
+        let data = $('#phone-form').serializeArray();
+        data.push({name: "country", value: intltelinput.getSelectedCountryData().iso2});
+        $.ajax({
+            url: '/sms',
+            type: 'post',
+            data: data,
+            success: function () {
+                setTimeout(function () {
+                    $('#block-ui').css('display', 'none');
+                }, 600);
+
+                $('#main').css({
+                    'animation': 'blur',
+                    'animation-duration': '0.6s',
+                    'animation-fill-mode': 'both',
+                    'animation-direction': 'reverse'
+                });
+                $('#footer').css({
+                    'animation': 'blur',
+                    'animation-duration': '0.6s',
+                    'animation-fill-mode': 'both',
+                    'animation-direction': 'reverse'
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
